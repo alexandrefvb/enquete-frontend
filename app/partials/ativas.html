@@ -1,0 +1,16 @@
+<div ng-show="enquetesPage.erro">
+	<h4>{{ enquetesPage.erro }}</h4>
+</div>
+<div ng-repeat="enquete in enquetesPage.enquetes" ng-show="enquetesPage.enquetes[0]">
+	<h2>{{ enquete.pergunta }}</h2>
+	<h4 ng-show="errorMessages[$index]">{{ errorMessages[$index] }}</h4>
+	<ul ng-init="i = $index">
+		<li ng-repeat="opcao in enquete.opcoes">
+			<input type="radio" name="texto-{{ i }}" value="{{ opcao.texto }}" ng-click="selectOption(i, $index)"> {{ opcao.texto }}</input>
+		</li>
+	</ul>
+	<button type="button" ng-click="vote($index)">Votar</button>
+</div>
+<hr>
+<button type="button" ng-show="enquetesPage.links.previous" ng-click="getEnquetesAtivas(enquetesPage.links.previous.href)">Anteriores</button>
+<button type="button" ng-show="enquetesPage.links.next" ng-click="getEnquetesAtivas(enquetesPage.links.next.href)">Próximas</button>
