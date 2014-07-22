@@ -4,6 +4,12 @@
 		{{ enquetesPage.erro }}
 	</div>
 	<div class="row">
+	    <div ng-hide="enquetesPage.content[0]">
+		    <div class="alert alert-info">
+		        <strong><span class="glyphicon glyphicon-info-sign"></span></strong>
+		        Não existem enquetes ativas no momento!
+		    </div>	       
+	    </div>
 		<div ng-repeat="enquete in enquetesPage.content"
 			ng-show="enquetesPage.content[0]" class="col-md-4">
 			<div class="panel panel-primary">

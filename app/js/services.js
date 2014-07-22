@@ -39,7 +39,7 @@ angular.module('myApp.services', []).
   factory('urlDiscoveryService', ['$q', '$http', function($q, $http) {
 	  var urlDiscoveryService;
 	  $.ajax({ 
-		  url: '/',
+		  url: '/api/',
 		  success: function(data) {
 			  urlDiscoveryService = data;
 		  },
