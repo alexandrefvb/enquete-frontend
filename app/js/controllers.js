@@ -51,6 +51,22 @@ angular.module('myApp.controllers', [])
 		  this.tab = tab;
 	  }
   })
-  .controller('EnquetesFinalizadasCtrl'['$scope', 'enqueteService', function($scope, enqueteService) {
+  .controller('EnquetesFinalizadasCtrl', ['$scope', 'enqueteService', function($scope, enqueteService) {
 	  
+  }])
+  .controller('NovaEnqueteCtrl', ['$scope', 'enqueteService', function($scope, enqueteService) {
+	  $scope.enquete = {};
+	  
+	  $scope.successMessage = null;
+	  
+	  $scope.errorMessage = null;
+	  
+	  $scope.criar = function() {
+		  enqueteService.criar(enquete).then(function(enquete) {
+			  $scope.enquete = enquete;
+			  $scope.successMessage = 'Sua <a href="' + enquete.links.self + '" class="alert-link">enquete</a> foi criada com sucesso!';
+		  }, function(errorMessage) {
+			  $scope.errorMessage = errorMessage;
+		  });
+	  }
   }]);

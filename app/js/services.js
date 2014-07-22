@@ -28,11 +28,24 @@ angular.module('myApp.services', []).
   		});
   		
   		return deferred.promise;
-  	}
+  	};
+  	
+  	var criar = function(enquete) {
+  		var deferred = $q.defer();
+  		
+  		$http.post(urlDiscoveryService.links['nova-enquete'].href, enquete).error(function(errorMessage) {
+  			deferred.reject(errorMessage);
+  		}).success(function(enqueteResource) {
+  			deferred.resolve(enqueteResource);
+  		});
+  		
+  		return deferred.promise;
+  	};
   	
   	return { 
   		getEnquetesAtivas : getEnquetesAtivas, 
-  		votar: votar 
+  		votar: votar,
+  		criar: criar
   	}; 
 
   }]).

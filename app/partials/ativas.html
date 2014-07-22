@@ -1,49 +1,39 @@
 <div class="container">
-	<div ng-show="enquetesPage.erro" class="alert alert-danger">
-		<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
-		{{ enquetesPage.erro }}
-	</div>
-	<div class="row">
-	    <div ng-hide="enquetesPage.content[0]">
-		    <div class="alert alert-info">
-		        <strong><span class="glyphicon glyphicon-info-sign"></span></strong>
-		        Não existem enquetes ativas no momento!
-		    </div>	       
-	    </div>
-		<div ng-repeat="enquete in enquetesPage.content"
-			ng-show="enquetesPage.content[0]" class="col-md-4">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">{{ enquete.pergunta }}</h3>
-				</div>
-				<div class="panel-body">
-					<div ng-show="enqueteErrorMessages[$index]"
-						class="alert alert-danger">
-						<strong><span class="glyphicon glyphicon-remove-circle"></span></strong>
-						{{ enqueteErrorMessages[$index] }}
-					</div>
-					<div ng-show="enqueteSuccessMessages[$index]"
-						class="alert alert-success">
-						<strong><span class="glyphicon glyphicon-ok-circle"></span></strong>
-						{{ enqueteSuccessMessages[$index] }}
-					</div>
-					<ul ng-init="i = $index" class="list-group">
-						<li ng-repeat="opcao in enquete.opcoes" class="list-group-item"><input
-							type="radio" name="texto-{{ i }}" value="{{ opcao.texto }}"
-							ng-click="selecionarOpcao(i, $index)"> {{ opcao.texto }}</input></li>
-					</ul>
-					<button type="button" ng-click="votar($index)"
-						class="btn btn-primary center-block">Votar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<hr>
-	<ul class="pager">
-		<li class="previous" ng-show="enquetesPage.links.previous"><a
-			href="#"
-			ng-click="getEnquetesAtivas(enquetesPage.links.previous.href, $event)">Anteriores</a></li>
-		<li class="next" ng-show="enquetesPage.links.next"><a href="#"
-			ng-click="getEnquetesAtivas(enquetesPage.links.next.href, $event)">Próximas</a></li>
-	</ul>
+    <div ng-show="enquetesPage.erro" class="alert alert-danger">
+        <strong><span class="glyphicon glyphicon-remove-circle"></span></strong> {{ enquetesPage.erro }}
+    </div>
+    <div class="row">
+        <div ng-hide="enquetesPage.content[0]">
+            <div class="alert alert-info">
+                <strong><span class="glyphicon glyphicon-info-sign"></span></strong> Não existem enquetes ativas no momento!
+            </div>
+        </div>
+        <div ng-repeat="enquete in enquetesPage.content" ng-show="enquetesPage.content[0]" class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ enquete.pergunta }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div ng-show="enqueteErrorMessages[$index]" class="alert alert-danger">
+                        <strong><span class="glyphicon glyphicon-remove-circle"></span></strong> {{ enqueteErrorMessages[$index] }}
+                    </div>
+                    <div ng-show="enqueteSuccessMessages[$index]" class="alert alert-success">
+                        <strong><span class="glyphicon glyphicon-ok-circle"></span></strong> {{ enqueteSuccessMessages[$index] }}
+                    </div>
+                    <ul ng-init="i = $index" class="list-group">
+                        <li ng-repeat="opcao in enquete.opcoes" class="list-group-item"><input type="radio" name="texto-{{ i }}"
+                                value="{{ opcao.texto }}" ng-click="selecionarOpcao(i, $index)"> {{ opcao.texto }}</input></li>
+                    </ul>
+                    <button type="button" ng-click="votar($index)" class="btn btn-primary center-block">Votar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <ul class="pager">
+        <li class="previous" ng-show="enquetesPage.links.previous"><a href="#"
+            ng-click="getEnquetesAtivas(enquetesPage.links.previous.href, $event)">Anteriores</a></li>
+        <li class="next" ng-show="enquetesPage.links.next"><a href="#"
+            ng-click="getEnquetesAtivas(enquetesPage.links.next.href, $event)">Próximas</a></li>
+    </ul>
 </div>
