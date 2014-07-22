@@ -12,22 +12,33 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
   <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap-theme.min.css"/>
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-  <ul class="menu">
-    <li><a href="#/ativas">Ativas</a></li>
-    <li><a href="#/finalizadas">Finalizadas</a></li>
-  </ul>
+  <div class="container" ng-controller="NavegacaoCtrl as nav">
+	  <ul class="nav nav-pills pull-left">
+	    <li ng-class="{active:nav.isActive(1)}"> <a href="#/ativas" ng-click="nav.setActive(1)">Ativas</a></li>
+	    <li ng-class="{active:nav.isActive(2)}"><a href="#/finalizadas" ng-click="nav.setActive(2)">Finalizadas</a></li>
+	    <li ng-class="{active:nav.isActive(3)}"><a href="#/nao-iniciadas" ng-click="nav.setActive(3)">Não iniciadas</a></li>
+	  </ul>
+	  <a href="#" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Nova enquete</a>
+  </div>
 
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
+  <div class="container">
+    <hr/>
+  </div>
+  
   <div ng-view></div>
 
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="bower_components/angular-route/angular-route.min.js"></script>
+  <script src="bower_components/jquery/jquery.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>
   <script src="js/controllers.js"></script>

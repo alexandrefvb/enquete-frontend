@@ -9,10 +9,10 @@ angular.module('myApp', [
   'myApp.directives',
   'myApp.controllers'
 ]).
-value('build', 1).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/nova', {templateUrl: 'partials/nova.html', controller: 'NovaEnqueteCtrl'});
   $routeProvider.when('/ativas', {templateUrl: 'partials/ativas.html', controller: 'EnquetesAtivasCtrl'});
   $routeProvider.when('/finalizadas', {templateUrl: 'partials/finalizadas.html', controller: 'EnquetesFinalizadasCtrl'});
+  $routeProvider.when('/nao-iniciadas', {templateUrl: 'partials/nao-iniciadas.html', controller: 'EnquetesFinalizadasCtrl'});
   $routeProvider.otherwise({redirectTo: '/ativas'});
 }]);
