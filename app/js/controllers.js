@@ -40,7 +40,7 @@ angular.module('myApp.controllers', [])
   	$scope.getEnquetesAtivas();
 
   }])
-  .controller('NavegacaoCtrl', function() {
+  .controller('NavegacaoCtrl', ['$route', function($route) {
 	  this.tab = 1;
 	  
 	  this.isActive = function(tab) {
@@ -50,23 +50,101 @@ angular.module('myApp.controllers', [])
 	  this.setActive = function(tab) {
 		  this.tab = tab;
 	  }
-  })
+	  
+	  this.refresh = function() {
+		  $route.reload();
+	  }
+  }])
   .controller('EnquetesFinalizadasCtrl', ['$scope', 'enqueteService', function($scope, enqueteService) {
 	  
   }])
   .controller('NovaEnqueteCtrl', ['$scope', 'enqueteService', function($scope, enqueteService) {
-	  $scope.enquete = {};
+
+	  $scope.enquete = { 'opcoes' : [], 'inicio' : '', 'fim': '' };
 	  
 	  $scope.successMessage = null;
 	  
 	  $scope.errorMessage = null;
 	  
-	  $scope.criar = function() {
-		  enqueteService.criar(enquete).then(function(enquete) {
-			  $scope.enquete = enquete;
-			  $scope.successMessage = 'Sua <a href="' + enquete.links.self + '" class="alert-link">enquete</a> foi criada com sucesso!';
-		  }, function(errorMessage) {
-			  $scope.errorMessage = errorMessage;
-		  });
+	  $scope.newOptionText = null;
+	  
+	  function validate() {
+		  var enquete = $scope.enquete;
+		  
+		  enquete.inicio = $('input#inicio').val();
+		  enquete.fim = $('input#fim').val();
+		  
+		  if (!enquete.pergunta) {
+			  $scope.errorMessage = 'Informe a pergunta da enquete!';
+			  return false;
+		  }
+		  
+		  if (!enquete.inicio) {
+			  $scope.errorMessage = 'Informe a data/hora de início enquete!';
+			  return false;
+		  }
+		  
+		  if (!enquete.fim) {
+			  $scope.errorMessage = 'Informe a data/hora de fim enquete!';
+			  return false;
+		  }
+		  
+		  if (moment(enquete.fim, 'DD/MM/YYYY HH:mm').isBefore(moment(enquete.inicio, 'DD/MM/YYYY HH:mm'))) {
+			  $scope.errorMessage = 'A data de início da enquete deve ser menor que a data de fim!';
+			  return false;
+		  }
+		  
+		  if (!enquete.opcoes || enquete.opcoes.length < 2) {
+			  $scope.errorMessage = 'Informe pelo menos duas opções para a enquete!';
+			  return false;
+		  }
+		  
+		  return true;
 	  }
+	  
+	  $scope.criar = function() {
+		  if (validate()) {
+			  enqueteService.criar($scope.enquete).then(function(enquete) {
+				  $scope.enquete = enquete;
+				  $scope.successMessage = 'Sua enquete foi criada com sucesso!';
+				  $scope.errorMessage = null;
+			  }, function(errorMessage) {
+				  $scope.errorMessage = errorMessage;
+			  });
+		  }
+	  }
+
+	  $scope.addOption = function() {
+		  if ($scope.newOptionText) {
+			  $scope.enquete.opcoes.push({ 'texto' : $scope.newOptionText });
+			  $scope.newOptionText = null;
+		  } else {
+			  $scope.errorMessage = "O texto da opção não pode ser vazio!";
+		  }
+	  }
+	  
+	  $scope.removeOption = function(index) {
+		  $scope.enquete.opcoes.splice(index, 1);
+	  }
+	  
+	  $(function () {
+		  moment.suppressDeprecationWarnings = true;
+    	  var options = { language: 'pt-BR', minDate: moment().startOf('day') };
+    	  $('#inicio').datetimepicker(options);
+    	  $('#fim').datetimepicker(options);
+    	  $('#inicio').on('dp.change',function (e) {
+    		  var picker = $('#fim').data('DateTimePicker');
+    		  picker.setMinDate(moment(e.date).startOf('day'));
+    		  if (e.date > picker.getDate()) {
+    			  picker.setDate(e.date);
+    		  }
+          });
+          $('#fim').on('dp.change',function (e) {
+        	  var picker = $('#inicio').data('DateTimePicker');
+              picker.setMaxDate(e.date);
+              if (e.date < picker.date) {
+            	  picker.setDate(e.date);
+              }
+          });
+      });
   }]);
